@@ -1,16 +1,16 @@
 CREATE DATABASE IF NOT EXISTS `koel_db`;
 
 CREATE TABLE `users` (
-	`id` INT NOT NULL AUT0_INCREMENT,
-	`name` VARCHAR NOT NULL,
-	`email` VARCHAR NOT NULL,
-	`password` VARCHAR NOT NULL,
+	`id` INT NOT NULL AUTO_INCREMENT DEFAULT 30001,
+	`name` VARCHAR(50) NOT NULL,
+	`email` VARCHAR(30) NOT NULL,
+	`password` VARCHAR(30) NOT NULL,
 	`is_admin` BOOL NOT NULL DEFAULT 0,
 	`preferences` TEXT,
-	`remember_token` VARCHAR NOT NULL,
-	`created_at` DATETIME,
-	`updated_at` DATETIME,
-	PRIMARY KEY `id`
+	`remember_token` VARCHAR(30) NOT NULL,
+	`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP(),
+	`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP(),
+	PRIMARY KEY (`id`),
 	UNIQUE (`id`, `email`)
 );
 
