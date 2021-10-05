@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `koel_db`;
 
 CREATE TABLE `users` (
-	`id` INT NOT NULL AUTO_INCREMENT DEFAULT 30001,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(50) NOT NULL,
 	`email` VARCHAR(30) NOT NULL,
 	`password` VARCHAR(30) NOT NULL,
@@ -13,6 +13,8 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`id`),
 	UNIQUE (`id`, `email`)
 );
+
+ALTER TABLE `users` AUTO_INCREMENT = 30001;
 
 CREATE TABLE `interactions` (
 	`id` BIGINT NOT NULL,
