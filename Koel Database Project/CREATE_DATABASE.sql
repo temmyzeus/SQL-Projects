@@ -1,4 +1,6 @@
+DROP DATABASE IF EXISTS `koel_db`;
 CREATE DATABASE IF NOT EXISTS `koel_db`;
+USE `koel_db`;
 
 CREATE TABLE `users` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -19,73 +21,74 @@ ALTER TABLE `users` AUTO_INCREMENT = 30001;
 CREATE TABLE `interactions` (
 	`id` BIGINT NOT NULL,
 	`user_id` INT,
-	`song_id` VARCHAR,
+	`song_id` VARCHAR(30),
 	`liked` BOOL,
 	`play_count` INT,
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
-	PRIMARY KEY `id`
+	PRIMARY KEY (`id`),
+	UNIQUE (`id`)
 );
 
 CREATE TABLE `artists` (
 	`id` INT,
-	`name` VARCHAR,
-	`image` VARCHAR,
+	`name` VARCHAR(30),
+	`image` VARCHAR(50),
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
-	PRIMARY KEY `id`
-)
+	PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `playlists` (
 	`id` INT,
 	`user_id` INT,
-	`name` VARCHAR,
+	`name` VARCHAR(30),
 	`rules` TEXT,
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
-	PRIMARY KEY `id`
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `songs` (
-	`id` VARCHAR,
+	`id` VARCHAR(30),
 	`album_id` INT,
 	`artist_id` INT,
-	`title` VARCHAR,
+	`title` VARCHAR(50),
 	`length` FLOAT,
 	`track` INT,
 	`disc` INT,
 	`lyrics` TEXT,
-	`path` PATH,
+	`path` TEXT,
 	`mtime` INT,
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
-	PRIMARY KEY `id`
+	PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `playlist_song` (
 	`id` INT,
 	`playlisy_id` INT,
-	`song_id` VARCHAR
-)
+	`song_id` VARCHAR(50)
+);
 
 CREATE TABLE `albums` (
 	`id` INT,
 	`artist_id` INT,
-	`name` VARCHAR,
-	`cover` VARCHAR,
+	`name` VARCHAR(50),
+	`cover` VARCHAR(50),
 	`created_at` DATETIME,
 	`updated_at` DATETIME,
-	PRIMARY KEY `id`
-)
+	PRIMARY KEY (`id`)
+);
 
 CREATE TABLE `password_resets` (
-	`email` VARCHAR,
-	`token` VARCHAR,
+	`email` VARCHAR(30),
+	`token` VARCHAR(50),
 	`created_at` DATETIME
-)
+);
 
 CREATE TABLE `settings` (
-	`key` VARCHAR,
+	`key` VARCHAR(30),
 	`value` TEXT,
-	PRIMARY KEY `key`
-)
+	PRIMARY KEY (`key`)
+);
