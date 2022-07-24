@@ -41,3 +41,18 @@ SELECT product_id
 FROM Products
 WHERE (low_fats = "Y") AND (recyclable = "Y");
 ```
+
+#### 584. Find Customer Referee https://leetcode.com/problems/find-customer-referee/
+```sql
+SELECT name
+FROM Customer
+WHERE (referee_id != 2) OR (referee_id IS NULL);
+```
+
+#### 183. Customers Who Never Order https://leetcode.com/problems/customers-who-never-order/
+```sql
+SELECT name as Customers
+FROM Customers c
+LEFT JOIN Orders o ON c.id = o.customerId
+WHERE o.id IS NULL;
+```
