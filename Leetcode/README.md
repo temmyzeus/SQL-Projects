@@ -72,3 +72,12 @@ UPDATE Salary
 SET sex = (CASE WHEN sex = 'm' THEN 'f' 
            WHEN sex = 'f' THEN 'm' END);
 ```
+
+#### 196. Delete Duplicate Emails https://leetcode.com/problems/delete-duplicate-emails/
+```sql
+DELETE p_1
+FROM Person AS p_1
+INNER JOIN Person AS p_2 
+ON p_1.email = p_2.email
+WHERE (p_1.id > p_2.id) and (p_1.email = p_2.email);
+```
