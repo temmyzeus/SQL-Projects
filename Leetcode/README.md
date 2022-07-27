@@ -56,3 +56,12 @@ FROM Customers c
 LEFT JOIN Orders o ON c.id = o.customerId
 WHERE o.id IS NULL;
 ```
+#### 1873. Calculate Special Bonus https://leetcode.com/problems/calculate-special-bonus/
+```sql
+SELECT
+    employee_id,
+    CASE WHEN (MOD(employee_id, 2) = 1) AND (name NOT LIKE "M%") THEN (salary * 1.0)
+        ELSE 0 END AS bonus
+FROM Employees
+ORDER BY employee_id;
+```
