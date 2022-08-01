@@ -81,3 +81,12 @@ INNER JOIN Person AS p_2
 ON p_1.email = p_2.email
 WHERE (p_1.id > p_2.id) and (p_1.email = p_2.email);
 ```
+
+#### 1667. Fix Names in a Table https://leetcode.com/problems/fix-names-in-a-table/
+```sql
+SELECT 
+    user_id,
+    CONCAT(UCASE(SUBSTRING(name, 1, 1)), LCASE(SUBSTRING(name, 2))) AS name
+FROM Users
+ORDER BY user_id;
+```
