@@ -59,3 +59,34 @@ SELECT
     CASE WHEN Actor is NULL THEN 'NULL' ELSE Actor END
 FROM pivot_2;
 ```
+
+## Weather Observation Station 18 (https://www.hackerrank.com/challenges/weather-observation-station-18/problem)
+**Solution1 -> Uses CTE**
+```sql
+WITH coordinates AS (
+    SELECT 
+        MIN(lat_n) AS a,
+        MIN(long_w) AS b,
+        MAX(lat_n) AS c,
+        MAX(long_w) AS d
+    FROM station)
+    
+SELECT
+    ROUND(ABS(a - c) + ABS(b - d), 4) AS manhattan_distance
+FROM coordinates;
+```
+**Solution 2**
+```sql
+SELECT 
+  ROUND(
+    ABS(
+      MIN(lat_n) - MAX(lat_n)
+    ) + ABS(
+      MIN(long_w) - MAX(long_w)
+    ), 
+    4
+  ) AS manhattan_distance 
+FROM 
+  station;
+
+```
