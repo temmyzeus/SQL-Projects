@@ -74,3 +74,18 @@ LEFT JOIN sal_dept_dup sdd
 ON (es.dept_id = sdd.dept_id) AND (es.salary = sdd.salary)
 WHERE (sdd.dept_id IS NULL) AND (sdd.salary IS NULL);
 ```
+
+**Solution 3**
+```sql
+SELECT 
+	dept_id,
+	salary
+FROM (
+	SELECT
+		dept_id,
+		salary,
+		COUNT(*) OVER(PARTITION BY dept_id, salary) AS count_dups
+	FROM emp_Salary
+) AS s
+WHERE count_dups > 1;
+```
