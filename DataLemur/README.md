@@ -26,7 +26,7 @@ ORDER BY profile_id;
 ```sql
 WITH photoshop_customers_ids AS (
   SELECT 
-    customer_id
+    DISTINCT customer_id
   FROM adobe_transactions
   GROUP BY customer_id, product
   HAVING product IN ('Photoshop')
