@@ -22,3 +22,22 @@ GROUP BY profile_id
 HAVING MAX(pp.followers) > SUM(cp.followers)
 ORDER BY profile_id;
 ```
+## Photoshop Revenue Analysis ==> https://datalemur.com/questions/photoshop-revenue-analysis
+```sql
+WITH photoshop_customers_ids AS (
+  SELECT 
+    customer_id
+  FROM adobe_transactions
+  GROUP BY customer_id, product
+  HAVING product IN ('Photoshop')
+)
+
+SELECT
+  at.customer_id,
+  SUM(at.revenue) AS revenue
+FROM adobe_transactions AS at
+INNER JOIN photoshop_customers_ids AS pci
+ON at.customer_id = pci.customer_id
+WHERE product != 'Photoshop'
+GROUP BY at.customer_id;
+```
