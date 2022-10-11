@@ -41,3 +41,32 @@ ON at.customer_id = pci.customer_id
 WHERE product != 'Photoshop'
 GROUP BY at.customer_id;
 ```
+
+## Compensation Outliers ==> https://datalemur.com/questions/compensation-outliers
+```sql
+WITH avg_salaries AS (
+  SELECT
+    title,
+    AVG(salary) AS avg_title_salary
+  FROM employee_pay
+  GROUP BY title
+)
+
+SELECT
+  *
+FROM
+(
+  SELECT
+    ep.employee_id,
+    ep.salary,
+    CASE
+      WHEN ep.salary > (2*avg_s.avg_title_salary) THEN 'Overpaid'
+      WHEN ep.salary < (0.5*avg_s.avg_title_salary) THEN 'Underpaid'
+      ELSE 'Normal'
+    END status
+  FROM employee_pay AS ep
+  LEFT JOIN avg_salaries AS avg_s
+  ON ep.title = avg_s.title
+) AS _
+WHERE status != 'Normal';
+```
