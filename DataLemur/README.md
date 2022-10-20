@@ -43,6 +43,34 @@ GROUP BY at.customer_id;
 ```
 
 ## Compensation Outliers ==> https://datalemur.com/questions/compensation-outliers
+**Method 1**
+```sql
+WITH with_average_title_salary AS (
+  SELECT
+    employee_id,
+    salary,
+    AVG(salary) OVER(PARTITION BY title) AS avg_title_salary
+  FROM employee_pay
+), compensation_w_status AS 
+(
+  SELECT
+    employee_id,
+    salary,
+    CASE
+      WHEN salary > (2*avg_title_salary) THEN 'Overpaid'
+      WHEN salary < (0.5*avg_title_salary) THEN 'Underpaid'
+      ELSE 'Normal'
+    END compensation_status
+  FROM with_average_title_salary
+)
+
+SELECT
+  *
+FROM compensation_w_status
+WHERE compensation_status != 'Normal';
+```
+
+**Method 2**
 ```sql
 WITH avg_salaries AS (
   SELECT
