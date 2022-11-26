@@ -124,3 +124,29 @@ FROM product_spend_total_ranked
 WHERE rank <= 2
 ORDER BY category, rank;
 ```
+
+## Signup Confirmation Rate ==> https://datalemur.com/questions/signup-confirmation-rate
+```sql
+WITH text_confirmations AS(
+  SELECT 
+    user_id,
+    e.email_id,
+    CASE 
+      WHEN signup_action = 'Confirmed' THEN 1
+      ELSE 0
+    END AS confirmed
+  FROM emails AS e
+  LEFT JOIN texts AS t
+  ON e.email_id = t.email_id
+), text_confirmations_unique AS (
+  SELECT
+    user_id,
+    SUM(confirmed) AS confirmed
+  FROM text_confirmations
+  GROUP BY user_id
+)
+
+SELECT 
+  ROUND(AVG(confirmed), 2) AS confirmation_rate
+FROM text_confirmations_unique
+```
