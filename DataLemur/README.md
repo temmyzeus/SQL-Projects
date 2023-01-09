@@ -150,3 +150,35 @@ SELECT
   ROUND(AVG(confirmed), 2) AS confirmation_rate
 FROM text_confirmations_unique
 ```
+
+## Odd and Even Measurements ==> https://datalemur.com/questions/odd-even-measurements
+```sql
+WITH w_daily_time_rank AS (
+  SELECT
+    measurement_time::DATE as measurement_day,
+    measurement_value,
+    ROW_NUMBER() OVER(PARTITION BY measurement_time::DATE ORDER BY measurement_time::TIME) AS daily_time_rank
+  FROM measurements
+  )
+, w_odd_even_cols AS (
+  SELECT
+    measurement_day,
+    CASE
+      WHEN (daily_time_rank % 2) != 0 THEN measurement_value
+      ELSE 0
+    END AS odd,
+    CASE
+      WHEN (daily_time_rank % 2) = 0 THEN measurement_value
+      ELSE 0
+    END AS even
+  FROM w_daily_time_rank
+)
+
+SELECT
+  measurement_day,
+  SUM(odd) AS odd_sum,
+  SUM(even) AS even_sum
+FROM w_odd_even_cols
+GROUP BY measurement_day
+ORDER BY measurement_day;
+```
