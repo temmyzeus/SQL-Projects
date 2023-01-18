@@ -182,3 +182,43 @@ FROM w_odd_even_cols
 GROUP BY measurement_day
 ORDER BY measurement_day;
 ```
+
+## Histogram of Users and Purchases [Walmart SQL Interview Question] ==> https://datalemur.com/questions/histogram-users-purchases
+***Solution 1***
+```sql
+WITH w_recent_transaction_date AS (
+  SELECT 
+    user_id,
+    transaction_date,
+    LAST_VALUE(transaction_date) OVER(PARTITION BY user_id ORDER BY transaction_date::DATE ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS recent_transaction_date
+  FROM user_transactions
+)
+
+SELECT
+  MAX(transaction_date) AS transaction_date,
+  user_id,
+  COUNT(1) AS purchase_count
+FROM w_recent_transaction_date
+WHERE transaction_date = recent_transaction_date
+GROUP BY user_id
+ORDER BY transaction_date;
+```
+
+***Solution 2***
+```sql
+SELECT
+  MAX(ut.transaction_date) AS transaction_date,
+  ut.user_id,
+  COUNT(1) AS purchase_count
+FROM user_transactions AS ut
+INNER JOIN (
+    SELECT 
+      user_id,
+      MAX(transaction_date) AS recent_transaction_date
+    FROM user_transactions
+    GROUP BY user_id
+  ) AS recent_transactions
+ON (ut.user_id = recent_transactions.user_id) AND (ut.transaction_date = recent_transactions.recent_transaction_date)
+GROUP BY ut.user_id
+ORDER BY transaction_date;
+```
