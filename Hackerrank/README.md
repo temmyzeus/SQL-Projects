@@ -108,3 +108,53 @@ SELECT
 FROM 
   station;
 ```
+
+## Contest Leaderboard (https://www.hackerrank.com/challenges/contest-leaderboard/)
+```sql
+select
+    s.hacker_id,
+    h.name,
+    total_Score
+from (
+    select
+        hacker_id,
+        sum(max_score) as total_score
+    from (
+        select 
+            hacker_id,
+            challenge_id,
+            max(score) as max_score
+        from submissions
+        group by hacker_id, challenge_id
+    ) a
+    group by hacker_id
+) s
+inner join hackers h
+on (s.hacker_id = h.hacker_id) and (s.total_score != 0)
+order by total_score desc, hacker_id asc;
+```
+
+```sql
+select
+    s.hacker_id,
+    h.name,
+    total_Score
+from (
+    select
+        hacker_id,
+        sum(max_score) as total_score
+    from (
+        select 
+            hacker_id,
+            challenge_id,
+            max(score) as max_score
+        from submissions
+        group by hacker_id, challenge_id
+    ) a
+    group by hacker_id
+) s
+inner join hackers h
+on s.hacker_id = h.hacker_id
+where (s.total_score != 0)
+order by total_score desc, hacker_id asc;
+```
