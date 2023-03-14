@@ -158,3 +158,23 @@ on s.hacker_id = h.hacker_id
 where (s.total_score != 0)
 order by total_score desc, hacker_id asc;
 ```
+## Project Planning (https://www.hackerrank.com/challenges/sql-projects)
+```sql
+select
+    start_date,
+    min(end_date)
+from (
+    select
+        start_date
+    from projects
+    where start_date not in (select end_date from projects)
+) a, (
+    select
+        end_date
+    from projects
+    where end_date not in (select start_date from projects)
+) b
+where start_date < end_date
+group by start_date
+order by datediff(min(end_Date), start_date) asc, start_date asc;
+```
