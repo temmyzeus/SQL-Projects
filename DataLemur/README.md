@@ -222,3 +222,18 @@ ON (ut.user_id = recent_transactions.user_id) AND (ut.transaction_date = recent_
 GROUP BY ut.user_id
 ORDER BY transaction_date;
 ```
+
+## User's Third Transactions [Uber SQL Interview Question] --> https://datalemur.com/questions/sql-third-transaction
+```sql
+SELECT
+  user_id,
+  spend,
+  transaction_date
+FROM (
+  SELECT 
+    * ,
+    ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY transaction_date::TIMESTAMP) AS transaction_num
+  FROM transactions
+) A
+WHERE transaction_num = 3;
+```
