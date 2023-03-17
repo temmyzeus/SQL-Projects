@@ -223,7 +223,7 @@ GROUP BY ut.user_id
 ORDER BY transaction_date;
 ```
 
-## User's Third Transactions [Uber SQL Interview Question] --> https://datalemur.com/questions/sql-third-transaction
+## User's Third Transactions [Uber SQL Interview Question] ==> https://datalemur.com/questions/sql-third-transaction
 ```sql
 SELECT
   user_id,
@@ -236,4 +236,15 @@ FROM (
   FROM transactions
 ) A
 WHERE transaction_num = 3;
+```
+
+## Compressed Mode [Alibaba SQL interview Question] ==> https://datalemur.com/questions/alibaba-compressed-mode
+```sql
+SELECT 
+  item_count as mode
+FROM items_per_order
+WHERE order_occurrences = (
+  SELECT MAX(order_occurrences) FROM items_per_order
+)
+ORDER BY item_count ASC;
 ```
