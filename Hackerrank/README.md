@@ -178,3 +178,18 @@ where start_date < end_date
 group by start_date
 order by datediff(min(end_Date), start_date) asc, start_date asc;
 ```
+
+## Placement (https://www.hackerrank.com/challenges/placements/problem)
+```
+select
+    s.name as student_name
+from students s
+left join friends f
+on (s.id = f.id)
+left join packages sp
+on (s.id = sp.id)
+left join packages fp
+on (f.friend_id = fp.id)
+where fp.salary > sp.salary
+order by fp.salary;
+```
