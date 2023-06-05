@@ -180,7 +180,7 @@ order by datediff(min(end_Date), start_date) asc, start_date asc;
 ```
 
 ## Placement (https://www.hackerrank.com/challenges/placements/problem)
-```
+```sql
 select
     s.name as student_name
 from students s
